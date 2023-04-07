@@ -13,6 +13,7 @@ spring:
             redirect-uri: http://localhost:8080/login/oauth2/code/swissid
             client-name: swissid
             provider: swissid
+            client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
         provider:
           swissid:

@@ -9,10 +9,10 @@
     <h1>Welcome</h1>
     <div sec:authorize="isAuthenticated()">
         This content is only shown to authenticated users.
+        <p sec:authentication="principal"></p>
     </div>
     <div sec:authorize="hasRole('ROLE_USER')">
-        <p>This content is only shown to users.</p>
-        <p sec:authentication="principal"></p>
+        <p>This content is only shown to user role.</p>
     </div>
 </div>
 </body>
