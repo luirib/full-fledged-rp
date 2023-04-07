@@ -7,6 +7,13 @@
 <body>
 <div>
     <h1>Welcome</h1>
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <p>This content is only shown to users.</p>
+        <p sec:authentication="principal"></p>
+    </div>
 </div>
 </body>
 </html>
