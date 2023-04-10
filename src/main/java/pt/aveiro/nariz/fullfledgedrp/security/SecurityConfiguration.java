@@ -9,6 +9,11 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -16,7 +21,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, AppUserService appUserService) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http,
+        OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2LoginHandler,
+        OAuth2UserService<OidcUserRequest, OidcUser> oidcLoginHandler) throws Exception {
         return http
             // Linking it to /templates/app-user/login.html
             .formLogin(c -> c.loginPage("/login")
@@ -28,8 +35,8 @@ public class SecurityConfiguration {
             .oauth2Login(oc -> oc.loginPage("/login")
                 .defaultSuccessUrl("/user")
                 .userInfoEndpoint(ui -> ui
-                    .userService(appUserService.oauth2LoginHandler())
-                    .oidcUserService(appUserService.oidcLoginHandler())))
+                    .userService(oauth2LoginHandler)
+                    .oidcUserService(oidcLoginHandler)))
             .logout(c -> c.logoutSuccessUrl("/?logout"))
             .authorizeHttpRequests(c -> c
                 .requestMatchers("/images/**", "/**.css").permitAll()

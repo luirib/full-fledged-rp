@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import lombok.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -59,6 +60,7 @@ public class AppUserService implements UserDetailsService {
         this.users.putIfAbsent(user.username, user);
     }
 
+    @Bean
     OAuth2UserService<OidcUserRequest, OidcUser> oidcLoginHandler() {
         return userRequest -> {
             // The only OIDC provider is SwissID
@@ -84,6 +86,7 @@ public class AppUserService implements UserDetailsService {
         return LoginProvider.valueOf(registration.getRegistrationId().toUpperCase());
     }
 
+    @Bean
     OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2LoginHandler() {
         return userRequest -> {
             // The only OAuth2 provider is Github
