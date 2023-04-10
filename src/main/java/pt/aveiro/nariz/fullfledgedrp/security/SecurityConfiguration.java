@@ -18,11 +18,23 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, AppUserService appUserService) throws Exception {
         return http
-            .formLogin(Customizer.withDefaults())
-            .oauth2Login(oc -> oc.userInfoEndpoint(ui -> ui
-                .userService(appUserService.oauth2LoginHandler())
-                .oidcUserService(appUserService.oidcLoginHandler())))
-            .authorizeHttpRequests(c -> c.anyRequest().authenticated())
+            // Linking it to /templates/app-user/login.html
+            .formLogin(c -> c.loginPage("/login")
+                //Default is /login, using instead
+                //  .loginProcessingUrl("authenticate"))
+                //Default is username, using username
+                //.usernameParameter("user")
+                .defaultSuccessUrl("/user"))
+            .oauth2Login(oc -> oc.loginPage("/login")
+                .defaultSuccessUrl("/user")
+                .userInfoEndpoint(ui -> ui
+                    .userService(appUserService.oauth2LoginHandler())
+                    .oidcUserService(appUserService.oidcLoginHandler())))
+            .logout(c -> c.logoutSuccessUrl("/?logout"))
+            .authorizeHttpRequests(c -> c
+                .requestMatchers("/images/**", "/**.css").permitAll()
+                .requestMatchers("/", "/login").permitAll()
+                .anyRequest().authenticated())
             .build();
     }
 

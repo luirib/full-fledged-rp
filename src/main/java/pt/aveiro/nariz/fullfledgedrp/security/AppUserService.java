@@ -39,6 +39,7 @@ public class AppUserService implements UserDetailsService {
         var luis = AppUser.builder()
             .username("luis")
             .provider(LoginProvider.APP)
+            .imageUrl("https://i.pravatar.cc/150?img=3")
             .password(passwordEncoder.encode("password"))
             .authorities(List.of(new SimpleGrantedAuthority("read")))
             .build();
@@ -67,13 +68,12 @@ public class AppUserService implements UserDetailsService {
             OidcUser oidcUser = delegate.loadUser(userRequest);
             return AppUser
                 .builder()
-                .username(oidcUser.getEmail())
+                .username(oidcUser.getAttribute("given_name"))
                 .name(oidcUser.getFullName())
                 .email(oidcUser.getEmail())
                 .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                 .userId(oidcUser.getSubject())
                 .provider(provider)
-                .imageUrl("https://i.pravatar.cc/150?img=3")
                 .attributes(oidcUser.getAttributes())
                 .authorities(oidcUser.getAuthorities())
                 .build();

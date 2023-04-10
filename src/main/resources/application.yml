@@ -23,6 +23,8 @@ spring:
             user-name-attribute: sub
             jwk-set-uri: https://login.sandbox.pre.swissid.ch:443/idp/oauth2/connect/jwk_uri
             user-info-authentication-method: header
+  thymeleaf:
+    cache: false
 logging:
   level:
     org.springframework.security: TRACE

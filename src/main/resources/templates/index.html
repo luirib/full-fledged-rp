@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" data-th-replace="~{fragments/skeleton::layout('home', ~{::#home_content})}">
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
 </head>
 <body>
-<div>
-    <h1>Welcome</h1>
-    <div sec:authorize="isAuthenticated()">
-        This content is only shown to authenticated users.
-        <p sec:authentication="principal"></p>
-    </div>
-    <div sec:authorize="hasRole('ROLE_USER')">
-        <p>This content is only shown to user role.</p>
+<div id="home_content">
+    <div class="ui padded segment">
+        <div class="ui message" data-th-if="${param.logout}">
+            <p>You have been successfully logged out!</p>
+        </div>
+        <h1>Welcome</h1>
     </div>
 </div>
 </body>

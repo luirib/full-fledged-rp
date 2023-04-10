@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-th-replace="~{fragments/skeleton::layout('user', ~{::#user_segment})}">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+<div class="ui grid segment" id="user_segment">
+    <div class="four wide left attached column">
+        <div class="ui vertical fluid tabular menu">
+            <a class="active item" data-tab="user">
+                Info
+            </a>
+        </div>
+    </div>
+    <div class="twelve wide stretched right attached column">
+        <div class="ui seamless right attached active tab segment" data-tab="user">
+
+            <div class="ui card">
+                <div class="image">
+
+                    <img data-th-if="${appUser.imageUrl}" data-th-src="${appUser.imageUrl}">
+
+                    <img data-th-unless="${appUser.imageUrl}" class="ui small circular image" data-th-src="@{/images/square-image.png}">
+                </div>
+                <div class="content">
+                    <a class="header" data-th-text="${appUser.username}">username</a>
+                    <div class="description">
+                        Joined via <span data-th-text="${appUser.provider}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $().ready(function () {
+            $('#user_segment .menu .item').tab();
+        });
+
+
+    </script>
+</div>
+</body>
+</html>
