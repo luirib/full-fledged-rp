@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import lombok.Value;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -78,6 +79,8 @@ public class AppUserService implements UserDetailsService {
                 .provider(provider)
                 .attributes(oidcUser.getAttributes())
                 .authorities(oidcUser.getAuthorities())
+                .idToken(oidcUser.getIdToken())
+                .userInfo(oidcUser.getUserInfo())
                 .build();
         };
     }
@@ -89,7 +92,7 @@ public class AppUserService implements UserDetailsService {
     @Bean
     OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2LoginHandler() {
         return userRequest -> {
-            // The only OAuth2 provider is Github
+            // The only OAuth2 provider is GitHub
             LoginProvider provider = getProvider(userRequest.getClientRegistration());
             DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
             //Here you can intercept the oauth2 authenticated user

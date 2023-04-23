@@ -22,6 +22,8 @@ public class AppUser implements UserDetails, OidcUser {
     String imageUrl;
     String name;
     LoginProvider provider;
+    OidcIdToken idToken;
+    OidcUserInfo userInfo;
 
     Map<String, Object> attributes;
     Collection<? extends GrantedAuthority> authorities;
@@ -78,11 +80,11 @@ public class AppUser implements UserDetails, OidcUser {
 
     @Override
     public OidcUserInfo getUserInfo() {
-        return null;
+        return userInfo;
     }
 
     @Override
     public OidcIdToken getIdToken() {
-        return null;
+        return idToken;
     }
 }

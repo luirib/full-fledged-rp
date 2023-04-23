@@ -1,4 +1,17 @@
 spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ffrp}
+    username: ${DB_USER:user}
+    password: ${DB_PASS:pass}
+  #Don't use this in prod
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  #End
   security:
     oauth2:
       client:
@@ -27,4 +40,6 @@ spring:
     cache: false
 logging:
   level:
-    org.springframework.security: TRACE
+    org.springframework.security: INFO
+
+
